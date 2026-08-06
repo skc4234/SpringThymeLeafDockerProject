@@ -1,0 +1,36 @@
+#port => default:8080 => 80
+#spring => 데이터베이스(datasource), JPA/ThymeLeaf, MyBatis, Logging, Security
+#       => Spring AI, WebSocket=>Kafka
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: hr
+    password: happy
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+# 각 데이터베이스에 맞는 SQL 문법 생성
+# JPA => Hibernate => SQL문장 생성 => Oracle DB 실행
+# SELECT NVL(MAX(no)+1,1) FROM board => Oracle
+# SELECT IFNULL(MAX(no)+1,1) FROM board => MySQL
+# OFFSET => LIMIT
+# SYSDATE => NOW()-MySQL, CURRENT_DATE-PostgresSQL
+# web => 파일 upload
+  jpa:
+    database: oracle
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+        format_sql: true
+        user_sql_comments: true
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    prefix: classpath:templates/
+    suffix: .html
+    mode: HTML
+mybatis:
+  type-aliases-package: com.sist.web.vo
+  mapper-locations: mybatis/mapper/*.xml
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
