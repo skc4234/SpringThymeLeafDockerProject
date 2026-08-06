@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 	private final RecipeRepository rDao;
+	private final ChefRepository cDao;
 
 	@Override
 	public List<Recipe> findByTitleContains(String title) {
@@ -53,9 +54,33 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public int[] getPageData(int page) {
+	public int[] getPageData(int page,int rowsize) {
 		// TODO Auto-generated method stub
-		int totalpage=(int)(Math.ceil(rDao.count()/12.0));
+		int totalpage=(int)(Math.ceil(rDao.count()/(double)rowsize));
+		final int BLOCK=10;
+		int startpage=((page-1)/BLOCK*BLOCK)+1;
+		int endpage=((page-1)/BLOCK*BLOCK)+BLOCK;
+		if(endpage>totalpage) endpage=totalpage;
+		int[] pages= {page,totalpage,startpage,endpage};
+		return pages;
+	}
+
+	@Override
+	public List<Chef> chefListData(int page) {
+		// TODO Auto-generated method stub
+		List<Chef> list=new ArrayList<Chef>();
+		Pageable pg=PageRequest.of(page-1, 20);
+		Page<Chef> pList=cDao.findAll(pg);
+		if(pList!=null&&pList.hasContent()) {
+			list=pList.getContent();
+		}
+		return list;
+	}
+
+	@Override
+	public int[] chefGetPageData(int page, int rowsize) {
+		// TODO Auto-generated method stub
+		int totalpage=(int)(Math.ceil(cDao.count()/(double)rowsize));
 		final int BLOCK=10;
 		int startpage=((page-1)/BLOCK*BLOCK)+1;
 		int endpage=((page-1)/BLOCK*BLOCK)+BLOCK;

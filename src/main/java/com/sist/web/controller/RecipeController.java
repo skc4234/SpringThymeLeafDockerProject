@@ -61,7 +61,7 @@ public class RecipeController {
 	public String main_main(@RequestParam(value = "page",required = false) String page, Model model) {
 		if(page==null) page="1";
 		List<Recipe> list=rService.recipeListData(Integer.parseInt(page));
-		int[] pages=rService.getPageData(Integer.parseInt(page));
+		int[] pages=rService.getPageData(Integer.parseInt(page),12);
 		model.addAttribute("list",list);
 		//model.addAttribute("curpage",pages[0]);
 		//model.addAttribute("totalpage",pages[1]);
@@ -69,6 +69,21 @@ public class RecipeController {
 		//model.addAttribute("endpage",pages[3]);
 		model.addAttribute("pages",pages);
 		model.addAttribute("main_html","main/home");
+		return "main/main";
+	}
+	
+	@GetMapping("/recipe/chef_list")
+	public String recipe_chef(@RequestParam(value = "page",required = false) String page, Model model) {
+		if(page==null) page="1";
+		List<Chef> list=rService.chefListData(Integer.parseInt(page));
+		int[] pages=rService.chefGetPageData(Integer.parseInt(page), 20);
+		model.addAttribute("list",list);
+		//model.addAttribute("curpage",pages[0]);
+		//model.addAttribute("totalpage",pages[1]);
+		//model.addAttribute("startpage",pages[2]);
+		//model.addAttribute("endpage",pages[3]);
+		model.addAttribute("pages",pages);
+		model.addAttribute("main_html","recipe/chef");
 		return "main/main";
 	}
 }

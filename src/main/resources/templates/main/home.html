@@ -19,6 +19,31 @@ p {
 </style>
 </head>
 <body>
-
+<div class="container">
+	<div class="row">
+		<div class="col-sm-3" th:each="vo:${list}">
+			<a href="#">
+			  <div class="thumbnail">
+				<img th:src="${vo.poster}" th:title="${vo.title}" style="width: 300px; height: 200px;">
+				<p>[[${vo.title}]]</p>
+			  </div>
+			</a>
+		</div>
+	</div>
+	<div class="row text-center">
+		<ul class="pagination">
+			<li th:if="${pages[2]>1}">
+				<a th:href="@{/main/main(page=${pages[2]-1})}">&laquo;</a>
+			</li>
+			<li th:each="i:${#numbers.sequence(pages[2],pages[3])}"
+					th:class="${pages[0]==i?'active':''}">
+				<a th:href="@{/main/main(page=${i})}">[[${i}]]</a>
+			</li>
+			<li th:if="${pages[3]<pages[1]}">
+				<a th:href="@{/main/main(page=${pages[3]+1})}">&raquo;</a>
+			</li>
+		</ul>
+	</div>
+</div>
 </body>
 </html>
