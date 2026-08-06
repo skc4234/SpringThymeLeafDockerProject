@@ -37,6 +37,21 @@ import com.sist.web.service.*;
  *   3. Controller          => 조립된 데이터만 받아서 HTML로 전송
  */
 
+/*
+ * 	 // git init
+ *   git init => git 연결폴더 생성
+ *   git branch -M main => 브랜치 변경
+ *   git remote add origin git주소 => github 연결
+ *   git add . => 수정/추가된 파일 추가
+ *   git commit -m "" => 커밋
+ *   git push -u origin main --force => github로 push(강제)
+ *   
+ *   // commit
+ *   git add .
+ *   git commit -m ""
+ *   git push -u origin main
+ */
+
 @Controller
 @RequiredArgsConstructor // 생성자+@Autowired, 반드시 Lombok 설치
 public class RecipeController {
