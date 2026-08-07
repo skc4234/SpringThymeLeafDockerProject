@@ -1,0 +1,38 @@
+name: Deploy Git Action
+# 배포 시작 시점 - main에서 push 할때마다 시작
+on:
+  push:
+    branches:
+      - main
+# 무슨 작업을 수행하는지 설정
+jobs:
+  deploy:
+    # 현재 우분투에서 배포
+    runs-on: self-hosted
+    # 어떤 순서로 진행할지
+    steps:
+      # 소스 코드 다운로드 - git clone과 동일
+      - uses: actions/checkout@v4
+      # JDK 21 버전 확인
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      # gradlew 권한 부여
+      - run: chmod +x gradlew
+      # 빌드
+      - run: ./gradlew clean build -x test
+      # 서버 kill
+      - run: |
+          PID=$(lsof -t -i:8080 || true)
+          if [ -n "$PID" ]; then
+            kill -15 "$PID" || true
+          fi
+      # 실행 => jar파일 생성 => java -jar app.jar
+      - name: Tomcat Start
+        env:
+          RUNNER_TRACKING_ID: ""
+        run: nohup java -jar build/libs/*0.0.1-SNAPSHOT.jar > app.log 2>&1 </dev/null &
+          sleep 3
+      
+      
