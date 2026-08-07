@@ -32,7 +32,6 @@ jobs:
       - name: Tomcat Start
         env:
           RUNNER_TRACKING_ID: ""
-        run: nohup java -jar build/libs/*0.0.1-SNAPSHOT.jar > app.log 2>&1 </dev/null &
-          sleep 3
+        run: nohup java -jar build/libs/*0.0.1-SNAPSHOT.jar > app.log 2>&1 &
       
       
