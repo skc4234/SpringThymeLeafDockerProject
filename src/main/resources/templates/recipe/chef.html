@@ -19,12 +19,16 @@
 					<table class="table">
 						<tr>
 							<td width="30%" class="text-center" rowspan="2">
+							  <a th:href="@{/recipe/chef_recipe(chef=${vo.chef})}">
 								<img th:src="${vo.poster}" class="img-circle" style="width: 100px; height: 100px">
+							  </a>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="4" style="color: orange;">
+							  <a th:href="@{/recipe/chef_recipe(chef=${vo.chef})}">
 								<h3>[[${vo.chef}]]</h3>
+							  </a>
 							</td>
 						</tr>
 						<tr>

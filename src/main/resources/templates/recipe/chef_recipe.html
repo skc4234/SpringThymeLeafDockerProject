@@ -22,18 +22,30 @@ p {
 </style>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+const chef_name='[[${chef}]]'
+console.log(chef_name)
+</script>
 </head>
 <body>
-<div class="container" id="findApp">
-	<div class="row text-center">
-		<select class="input-sm" v-model="column">
-			<option value="title">레시피</option>
-			<option value="chef">쉐프</option>
-		</select>
-		<input @keydown.enter="find" type="text" class="input-sm" size=20 ref="fdRef">
-		<button @click="find" type="button" class="btn btn-sm btn-success">검색</button>
+<div class="container" id="chef">
+	<div class="row">
+		<table class="table">
+			<tr>
+				<td class="text-center">
+					<h3 style="color: orange;">[[${chef}]]
+						<span style="font-size: 16px; color: black;">님의 레시피입니다</span>
+					</h3>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-right">
+					<a href="javascript:history.back()" class="btn btn-sm btn-danger">목록</a>
+				</td>
+			</tr>
+		</table>
 	</div>
-	<div class="row" style="margin-top: 20px">
+	<div class="row">
 		<div class="col-sm-3" v-for="(vo,index) in list" :key="index">
 			<div class="thumbnail">
 			  <a @click="change(vo.no)">
@@ -66,23 +78,21 @@ p {
 				totalpage:0,
 				startpage:0,
 				endpage:0,
-				fd:'라면',
-				column:'title'
+				chef:chef_name
 			}
 		},
 		mounted(){
 			// 시작과 동시에 처리
-			this.$refs.fdRef.value=this.fd
 			this.dataRecv()
 		},
 		methods:{
 			// 사용자 정의 함수
 			async dataRecv(){
 				
-				await axios.get('http://localhost:8080/recipe/find_vue',{
+				await axios.get('http://localhost:8080/recipe/chef_recipe_vue',{
 					params:{
 						page:this.curpage,
-						fd:this.fd
+						chef:this.chef
 					}
 				}).then(response=>{
 					console.log(response.data)
@@ -92,18 +102,6 @@ p {
 					this.startpage=response.data.pages[2]
 					this.endpage=response.data.pages[3]
 				})
-			},
-			find(){
-				//if(!this.fd) {
-				if(!this.$refs.fdRef.value) {
-					this.$refs.fdRef.value=''
-					this.$refs.fdRef.focus()
-					return
-				}
-				//console.log(this.$refs.fdRef.value)
-				this.fd=this.$refs.fdRef.value
-				this.curpage=1
-				this.dataRecv()
 			},
 			move(page){
 				this.curpage=page
@@ -131,7 +129,7 @@ p {
 		watch:{
 			// 컴포넌트에서 발생된 이벤트 처리
 		}
-	}).mount('#findApp')
+	}).mount('#chef')
 </script>
 </body>
 </html>
