@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style type="text/css">
+.container{
+	margin-top: 40px;
+}
+.row {
+	margin: 0px auto;
+	width: 500px;
+}
+</style>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container" id="multi">
+	<div class="row">
+		<h3 class="text-center">Vue를 이용한 멀티 업로드</h3>
+		<input type="file" @change="handlerFile" size="20" style="float: left;" multiple>
+		<button type="button" @click="submit" class="btn btn-sm btn-danger" style="float: left">업로드</button>
+	</div>
+</div>
+<script>
+	let multi=Vue.createApp({
+		data(){
+			return {
+				files:[]
+			}
+		},
+		mounted(){
+			
+		},
+		methods:{
+			handlerFile(e){
+				this.files=e.target.files
+				console.log(this.files)
+			},
+			submit(){
+				const formData=new FormData()
+				for(let i of this.files){
+					formData.append('files',i)
+				}
+				console.log(formData)
+				axios.post('/multi_upload',formData,{
+					//params:{
+					//	files:formData
+					//}
+					headers:{
+						'Context-Type':'multipart/form-data'
+					}
+				}).then(()=>alert("등록 완료!!"))
+			}
+		}
+	}).mount('#multi')
+</script>
+</body>
+</html>

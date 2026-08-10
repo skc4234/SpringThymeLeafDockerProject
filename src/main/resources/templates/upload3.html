@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style type="text/css">
+.container{
+	margin-top: 40px;
+}
+.row {
+	margin: 0px auto;
+	width: 500px;
+}
+</style>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+let fileIndex=0
+$(function(){
+	$('#addBtn').on('click',function(){
+		$('#upload-table tbody').append(
+			'<tr id="m'+(fileIndex)+'">'+
+			'<td width="30%"> Files:'+(fileIndex+1)+
+			'</td>'+
+			'<td width="70%">'+
+			'<input type="file" name="files">'+
+			'</td>'+
+			'</tr>'
+		)
+		fileIndex++
+	})
+	$('#removeBtn').on('click',function(){
+		if(fileIndex>0){
+			$('#m'+(fileIndex-1)).remove()
+			fileIndex--
+		}
+	})
+})
+</script>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<h3>JQuery를 이용한 멀티 업로드</h3>
+		<form action="/multi_upload" method="post" enctype="multipart/form-data">
+			<table class="table">
+				<tr>
+					<td class="text-center">
+						<button type="button" class="btn btn-sm btn-info" id="addBtn">Add</button>
+						<button type="button" class="btn btn-sm btn-warning" id="removeBtn">Remove</button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table class="table" id="upload-table">
+							<tbody>
+								
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-center">
+						<button type="submit" class="btn btn-sm btn-primary">업로드</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+</body>
+</html>
