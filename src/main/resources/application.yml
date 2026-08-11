@@ -11,9 +11,9 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:XE
-    username: hr
-    password: happy
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: oracle.jdbc.driver.OracleDriver
 # 각 데이터베이스에 맞는 SQL 문법 생성
 # JPA => Hibernate => SQL문장 생성 => Oracle DB 실행

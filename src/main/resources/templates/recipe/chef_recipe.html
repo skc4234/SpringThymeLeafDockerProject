@@ -48,7 +48,7 @@ console.log(chef_name)
 	<div class="row">
 		<div class="col-sm-3" v-for="(vo,index) in list" :key="index">
 			<div class="thumbnail">
-			  <a @click="change(vo.no)">
+			  <a @click="change(vo.no)" class="a-link">
 				<img :src="vo.poster" :title="vo.title" style="width: 300px; height: 200px;">
 			  </a>
 				<p>{{vo.title}}</p>
